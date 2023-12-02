@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: YuukiPS/Launcher-Android
+          path: .
+
+      - name: Setup Java 
+        uses: actions/setup-java@v3 
+        with:
+          java-version: '21'
+          distribution: 'oracle'
+          check-latest: true
+          cache: 'gradle'
+
+      - name: build apk
+        run: |
+          chmod +x run.sh
+          ./run.sh
+
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: a
+          path: ./app/build/outputs/apk/release/app-release-aligned-debugSigned.apk
+
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: b
+          path: ./app/build/outputs/apk/release/cn4rel-308-lspatched.apk
