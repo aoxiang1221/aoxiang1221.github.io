@@ -24,6 +24,7 @@ jobs:
 
       - name: build apk
         run: |
+          chmod +x gradlew
           ./gradlew assembleRelease
           java -jar tool/uber-apk-signer.jar -a app/build/outputs/apk/release/app-release-unsigned.apk
           java -jar tool/lspatch.jar apk/cn4rel.apk -m app/build/outputs/apk/release/app-release-aligned-debugSigned.apk
